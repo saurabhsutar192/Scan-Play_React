@@ -87,6 +87,7 @@ export default function Footer() {
     spotify.getMyCurrentPlaybackState().then((res) => {
       console.log(res.device.volume_percent);
       volumeBar.current.value = res.device.volume_percent;
+      dispatch({ type: "setPlaying", playing: res?.is_playing });
     });
   }, []);
 
