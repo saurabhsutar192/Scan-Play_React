@@ -9,7 +9,8 @@ import { useDataValue } from "../DataLayer.js";
 
 export default function Footer() {
   let [{ spotify, playing, item, indSong }, dispatch] = useDataValue();
-
+  // let [volume, setVolume] = useState(0);
+  let volumeBar = useRef();
   function controlVolume(event) {
     let volume = event.target.value;
     spotify
@@ -25,7 +26,9 @@ export default function Footer() {
   function play() {
     spotify.play().then(() => {
       spotify.getMyCurrentPlaybackState().then((res) => {
+        let duration = Math.floor(res.item.duration_ms / 1000);
         dispatch({ type: "setPlaying", playing: true });
+        // autoSeek(duration);
       });
     });
   }
@@ -33,6 +36,7 @@ export default function Footer() {
   function Pause() {
     spotify.pause().then(() => {
       spotify.getMyCurrentPlaybackState().then((res) => {
+        console.log(res);
         dispatch({ type: "setPlaying", playing: false });
       });
     });
@@ -42,7 +46,6 @@ export default function Footer() {
     console.log(indSong);
     spotify.skipToNext().then((res) => {
       spotify.getMyCurrentPlaybackState().then((res) => {
-        console.log(res);
         dispatch({ type: "setPlaying", playing: indSong ? false : true });
         dispatch({ type: "SET_ITEM", item: res?.item });
       });
@@ -56,7 +59,7 @@ export default function Footer() {
       });
     });
   }
-  function seek(e) {
+  function userSeek(e) {
     console.log(e.target.value);
     let duration = "";
     let position = e.target.value;
@@ -70,6 +73,22 @@ export default function Footer() {
       }
     });
   }
+
+  // function autoSeek(duration) {
+  //   setInterval(() => {
+  //     // setPosition(Math.floor((position + 1) * (100 / duration)));
+  //     seekbar.current.value = Math.floor(
+  //       (seekbar.current.value + 1) * (100 / duration)
+  //     );
+  //   }, 1000);
+  // }
+
+  useEffect(() => {
+    spotify.getMyCurrentPlaybackState().then((res) => {
+      console.log(res.device.volume_percent);
+      volumeBar.current.value = res.device.volume_percent;
+    });
+  }, []);
 
   return (
     <div className="footer">
@@ -105,7 +124,9 @@ export default function Footer() {
         </div>
         <div className="sliderContainer mt-md-2 px-3 px-lg-4 px-md-3">
           <input
-            onClick={seek}
+            onClick={userSeek}
+            // ref={seekbar}
+            defaultValue={0}
             min={0}
             max={100}
             type="range"
@@ -120,6 +141,8 @@ export default function Footer() {
         <div className="volumeSlider">
           <input
             onChange={controlVolume}
+            defaultValue={100}
+            ref={volumeBar}
             type="range"
             className="mt-2 px-2 w-100"
             min={0}
