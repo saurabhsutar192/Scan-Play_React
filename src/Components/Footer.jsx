@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../CSS/footer.css";
 import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 import PauseIcon from "@material-ui/icons/Pause";
@@ -8,37 +8,34 @@ import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import { useDataValue } from "../DataLayer.js";
 
 export default function Footer() {
-  // let [pp, setPp] = useState(true);
-  // let [currTrackName, setCurrTrackName] = useState();
-  // let [currTrackImg, setCurrTrackImg] = useState();
-  // let [currTrackArtist, setCurrTrackArtist] = useState();
-  // let [fVal, setFVal] = useState(false);
-
   let [{ spotify, playing, item, indSong }, dispatch] = useDataValue();
 
   function controlVolume(event) {
-    // console.log(event.target.value);
+    let volume = event.target.value;
+    spotify
+      .setVolume(volume)
+      .then((res) => {
+        // console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   function play() {
     spotify.play().then(() => {
       spotify.getMyCurrentPlaybackState().then((res) => {
         dispatch({ type: "setPlaying", playing: true });
-        // dispatch({ type: "SET_ITEM", item: res?.item });
       });
     });
-
-    // updateFooter();
   }
 
   function Pause() {
     spotify.pause().then(() => {
       spotify.getMyCurrentPlaybackState().then((res) => {
         dispatch({ type: "setPlaying", playing: false });
-        // dispatch({ type: "SET_ITEM", item: res?.item });
       });
     });
-    // updateFooter();
   }
 
   function next() {
@@ -50,7 +47,6 @@ export default function Footer() {
         dispatch({ type: "SET_ITEM", item: res?.item });
       });
     });
-    // updateFooter();
   }
   function prev() {
     spotify.skipToPrevious().then(() => {
@@ -59,7 +55,20 @@ export default function Footer() {
         dispatch({ type: "SET_ITEM", item: res?.item });
       });
     });
-    // updateFooter();
+  }
+  function seek(e) {
+    console.log(e.target.value);
+    let duration = "";
+    let position = e.target.value;
+
+    spotify.getMyCurrentPlaybackState().then((res) => {
+      // console.log(res);
+      duration = res.item.duration_ms;
+      if (duration !== 0) {
+        let timeStamp = Math.floor(duration * (position / 100));
+        spotify.seek(timeStamp).catch((error) => console.log(error));
+      }
+    });
   }
 
   return (
@@ -95,7 +104,13 @@ export default function Footer() {
           </div>
         </div>
         <div className="sliderContainer mt-md-2 px-3 px-lg-4 px-md-3">
-          <input type="range" class="slider "></input>
+          <input
+            onClick={seek}
+            min={0}
+            max={100}
+            type="range"
+            class="slider "
+          ></input>
         </div>
       </div>
       <div className="volumeControl p-2 px-md-5 goAway">
