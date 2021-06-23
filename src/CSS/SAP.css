@@ -1,0 +1,26 @@
+.sap {
+  width: 100vw;
+  display: flex;
+}
+
+.leftSec,
+.rightSec {
+  min-height: 100%;
+}
+
+.leftSec {
+  /* flex: 0.15; */
+  width: 20%;
+  background: linear-gradient(359.89deg, #18edba -1.13%, #006d77 99.92%);
+}
+
+.rightSec {
+  /* flex: 0.85; */
+  width: 80%;
+}
+
+@media (orientation: portrait) {
+  .rightSec {
+    width: 100%;
+  }
+}

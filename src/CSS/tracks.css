@@ -1,0 +1,217 @@
+.tracks {
+  width: 100%;
+  padding: 20px 0.5em;
+  display: flex;
+  overflow-y: auto;
+}
+
+.track {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 2vw;
+}
+
+.trackImg {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 2vw;
+  box-shadow: 10px 9px 15px -6px rgba(0, 0, 0, 0.31);
+  -webkit-box-shadow: 10px 9px 15px -6px rgba(0, 0, 0, 0.31);
+  -moz-box-shadow: 10px 9px 15px -6px rgba(0, 0, 0, 0.31);
+}
+
+.trackDesc {
+  padding-top: 25%;
+
+  position: absolute;
+  bottom: 0;
+
+  height: 50%;
+  background: linear-gradient(
+    to top,
+    #423f3f 34.58%,
+    rgba(66, 63, 63, 0.71) 62.08%,
+    rgba(196, 196, 196, 0) 100%
+  );
+  width: 100%;
+  border-bottom-left-radius: 2vw;
+  border-bottom-right-radius: 2vw;
+
+  color: white;
+  transition: 0.2s ease-out;
+}
+
+.trackHover {
+  padding-top: 10%;
+  height: 100%;
+  border-radius: 2vw;
+  background: none;
+  background-color: rgba(66, 63, 63, 0.71);
+  /* background: linear-gradient(
+    to top,
+    #423f3f 14.58%,
+    rgba(66, 63, 63, 0.71) 82.08%,
+    rgba(196, 196, 196, 0) 100%
+  ); */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; */
+}
+
+.trackName {
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 1.2vw;
+  /* background-color: aqua; */
+
+  font-weight: bold;
+  transition: 1s ease-out;
+  text-overflow: ellipsis;
+}
+.trackArtist {
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 0.6vw;
+  text-overflow: ellipsis;
+  transition: 1s ease-out;
+}
+
+.trackHover > .trackName {
+  overflow: visible;
+  white-space: normal;
+  text-overflow: none;
+}
+
+.trackHover > .trackArtist {
+  overflow: visible;
+  white-space: normal;
+  text-overflow: none;
+}
+
+.playBtn {
+  margin-top: 20%;
+  transform: scale(2);
+}
+.playAll,
+.shuffle {
+  transform: scale(2);
+  cursor: pointer;
+
+  /* background-color: antiquewhite; */
+}
+
+.scanner {
+  position: absolute;
+  height: 500px;
+  width: 700px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 20px;
+
+  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  box-shadow: 20px 23px 55px -12px rgba(0, 0, 0, 0.64);
+  -webkit-box-shadow: 20px 23px 55px -12px rgba(0, 0, 0, 0.64);
+  -moz-box-shadow: 20px 23px 55px -12px rgba(0, 0, 0, 0.64);
+}
+
+.scanner video {
+  /* height: 50vw;
+  width: 50vw; */
+  top: 0%;
+  left: 0%;
+  border-radius: 20px;
+  /* background-color: aqua; */
+}
+
+.closeScan {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 999 !important;
+  cursor: pointer;
+}
+
+canvas {
+  position: absolute;
+  z-index: 2;
+  height: auto;
+  width: auto;
+  /* background-color: green; */
+  top: 50%;
+  left: 50%;
+  transform: translate(-48.5%, -50%);
+}
+@media screen and (max-width: 1400px) {
+  .trackName {
+    font-size: 2vw;
+    font-weight: bold;
+    transition: 1s ease-out;
+  }
+  .trackArtist {
+    font-size: 1vw;
+    transition: 1s ease-out;
+  }
+}
+
+@media (orientation: portrait) {
+  .trackName {
+    font-size: 2vw;
+    font-weight: bold;
+    transition: 1s ease-out;
+  }
+  .trackArtist {
+    font-size: 1vw;
+    transition: 1s ease-out;
+  }
+}
+
+@media (orientation: portrait) and (max-width: 768px) {
+  .trackName {
+    font-size: 2.5vw;
+    font-weight: bold;
+    transition: 1s ease-out;
+  }
+  .trackArtist {
+    font-size: 1.2vw;
+    transition: 1s ease-out;
+  }
+}
+
+@media (orientation: portrait) and (max-width: 576px) {
+  .trackDesc {
+    height: 50%;
+  }
+  .trackName {
+    font-size: 4vw;
+    font-weight: bold;
+    transition: 1s ease-out;
+  }
+  .trackArtist {
+    font-size: 2vw;
+    transition: 1s ease-out;
+  }
+  .playAll,
+  .shuffle {
+    transform: scale(1.2) translateX(0%);
+
+    /* background-color: antiquewhite; */
+  }
+}
+
+@media (orientation: landscape) and (max-width: 823px) {
+  .playAll,
+  .shuffle {
+    transform: scale(1.2) translateX(0%);
+
+    /* background-color: antiquewhite; */
+  }
+}

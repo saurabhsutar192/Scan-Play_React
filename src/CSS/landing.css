@@ -1,0 +1,75 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&family=Sacramento&display=swap");
+.sapText {
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: bolder;
+  font-size: 5.5vw;
+  height: fit-content !important;
+  /* identical to box height */
+  z-index: 10;
+  color: #006d77;
+}
+
+.desc {
+  font-family: Sacramento;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 2.5vw;
+
+  /* identical to box height */
+
+  display: flex;
+  align-items: center;
+
+  color: #006d77;
+}
+
+.loginBtn {
+  border: #006d77 0.3vw solid;
+  border-radius: 100vw;
+  font-size: 1.2vw;
+  font-style: normal;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+  letter-spacing: 0.15em;
+  margin-left: -0.15em;
+  color: #006d77;
+}
+
+.loginBtn:hover {
+  background-color: #006d77;
+  color: white;
+}
+
+@media (orientation: portrait) {
+  .landing {
+    flex-direction: column !important;
+    height: 80vh !important;
+    min-width: 280px;
+  }
+  .lDiv,
+  .rDiv {
+    width: 100% !important;
+    height: 50% !important;
+  }
+
+  .hpImg {
+    width: 65% !important;
+  }
+  .sapText {
+    font-size: 6vh;
+  }
+  .desc {
+    font-size: 2.5vh;
+    margin-bottom: 0 !important;
+  }
+  .loginBtn {
+    font-size: 1.2vh;
+  }
+}
+
+@media (orientation: portrait) and (max-width: 375px) {
+  .hpImg {
+    width: 90% !important;
+  }
+}

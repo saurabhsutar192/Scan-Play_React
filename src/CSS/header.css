@@ -1,0 +1,127 @@
+.header {
+  padding: 20px 1em;
+  height: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.menuIcon {
+  display: none;
+}
+.search {
+  width: 50%;
+
+  overflow: auto;
+  min-height: 60px;
+  border-radius: 500px;
+  outline: none;
+  border: none;
+  background: white;
+  padding-inline: 20px;
+  box-shadow: 10px 9px 15px -6px rgba(0, 0, 0, 0.31);
+  -webkit-box-shadow: 10px 9px 15px -6px rgba(0, 0, 0, 0.31);
+  -moz-box-shadow: 10px 9px 15px -6px rgba(0, 0, 0, 0.31);
+}
+.userInfo {
+  display: flex;
+  width: fit-content;
+  max-width: 220px;
+  padding-inline: 7px;
+  min-height: 60px;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: white;
+  border-radius: 1000px;
+  box-shadow: 10px 9px 15px -6px rgba(0, 0, 0, 0.31);
+  -webkit-box-shadow: 10px 9px 15px -6px rgba(0, 0, 0, 0.31);
+  -moz-box-shadow: 10px 9px 15px -6px rgba(0, 0, 0, 0.31);
+  cursor: pointer;
+}
+.userName {
+  height: 90%;
+  min-width: fit-content;
+  display: flex;
+  font-size: 1.2em;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0 0.5em;
+}
+.userImg {
+  position: relative;
+
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  overflow: hidden;
+  box-shadow: 10px 9px 15px -6px rgba(0, 0, 0, 0.31);
+  -webkit-box-shadow: 10px 9px 15px -6px rgba(0, 0, 0, 0.31);
+  -moz-box-shadow: 10px 9px 15px -6px rgba(0, 0, 0, 0.31);
+}
+
+.userImg img {
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+}
+
+@media (orientation: portrait) {
+  .menuIcon {
+    display: block;
+    cursor: pointer;
+    color: #006d77;
+  }
+  .search {
+    width: 40%;
+  }
+}
+
+@media (orientation: portrait) and (max-width: 413px) {
+  .header {
+    height: 60px;
+  }
+  .userName {
+    font-size: 12px;
+    margin: 0 0.5em;
+  }
+
+  .userImg img {
+    height: 30px;
+    width: 30px;
+  }
+  .search {
+    font-size: 12px;
+    min-height: 40px;
+  }
+  .userInfo {
+    min-height: 40px;
+    padding-right: 3px;
+  }
+}
+
+@media (orientation: landscape) and (max-width: 823px) {
+  .header {
+    padding: 10px 1rem;
+    height: 60px;
+  }
+  .userName {
+    font-size: 12px;
+    margin: 0 0.5em;
+  }
+  .userImg img {
+    height: 30px;
+    min-width: 30px;
+    max-width: 30px;
+  }
+  .search {
+    width: 50%;
+    font-size: 12px;
+    min-height: 40px;
+  }
+  .userInfo {
+    min-height: 40px;
+    padding: 3px;
+  }
+}
