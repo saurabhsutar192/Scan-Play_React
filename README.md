@@ -1,4 +1,9 @@
 # Spotify Premium Required to play!
+# Instructions to make Device active
+  1. Before Logging in into scan&play, Open Spotify on browser or App and login.
+  2. Use the same account to login in to Spotify
+  3. Before playing anything on Scan And Play ...just play-pause on spotify App
+  4. Now you are free to use it
 
 # Getting Started with Create React App
 
