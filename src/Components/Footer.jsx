@@ -47,7 +47,7 @@ export default function Footer() {
   }
 
   function next() {
-    console.log(indSong);
+    // console.log(indSong);
     spotify.skipToNext().then((res) => {
       spotify.getMyCurrentPlaybackState().then((res) => {
         resetSeek(res);
@@ -61,6 +61,7 @@ export default function Footer() {
   function prev() {
     spotify.skipToPrevious().then(() => {
       spotify.getMyCurrentPlaybackState().then((res) => {
+        resetSeek(res);
         dispatch({ type: "setPlaying", playing: indSong ? false : true });
         let duration = Math.floor(res?.item?.duration_ms / 1000);
         // playing ? autoSeek(duration) : clearInterval(window.seekTimer);
@@ -69,7 +70,7 @@ export default function Footer() {
     });
   }
   function userSeek(e) {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     let duration = "";
     let position = e.target.value;
     setRange(position);
@@ -85,7 +86,7 @@ export default function Footer() {
   function autoSeek(duration) {
     window.seekTimer = setInterval(() => {
       seekbar.current.value = parseInt(seekbar.current.value) + 1;
-      console.log(parseInt(seekbar.current.value) + 1);
+      // console.log(parseInt(seekbar.current.value) + 1);
       setRange(seekbar.current.value);
     }, duration * 10);
   }
