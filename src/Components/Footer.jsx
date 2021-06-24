@@ -9,15 +9,16 @@ import { useDataValue } from "../DataLayer.js";
 
 export default function Footer() {
   let [{ spotify, playing, item, indSong }, dispatch] = useDataValue();
-  // let [volume, setVolume] = useState(0);
+  let [range, setRange] = useState(0);
+
+  let seekbar = useRef();
+
   let volumeBar = useRef();
   function controlVolume(event) {
     let volume = event.target.value;
     spotify
       .setVolume(volume)
-      .then((res) => {
-        // console.log(res);
-      })
+
       .catch((err) => {
         console.log(err);
       });
@@ -26,9 +27,10 @@ export default function Footer() {
   function play() {
     spotify.play().then(() => {
       spotify.getMyCurrentPlaybackState().then((res) => {
-        let duration = Math.floor(res.item.duration_ms / 1000);
+        resetSeek(res);
+        let duration = Math.floor(res?.item?.duration_ms / 1000);
         dispatch({ type: "setPlaying", playing: true });
-        // autoSeek(duration);
+        autoSeek(duration);
       });
     });
   }
@@ -36,7 +38,9 @@ export default function Footer() {
   function Pause() {
     spotify.pause().then(() => {
       spotify.getMyCurrentPlaybackState().then((res) => {
-        console.log(res);
+        resetSeek(res);
+        console.log(window.seekTimer);
+        clearInterval(window.seekTimer);
         dispatch({ type: "setPlaying", playing: false });
       });
     });
@@ -46,7 +50,10 @@ export default function Footer() {
     console.log(indSong);
     spotify.skipToNext().then((res) => {
       spotify.getMyCurrentPlaybackState().then((res) => {
+        resetSeek(res);
         dispatch({ type: "setPlaying", playing: indSong ? false : true });
+        let duration = Math.floor(res?.item?.duration_ms / 1000);
+        // playing ? autoSeek(duration) : clearInterval(window.seekTimer);
         dispatch({ type: "SET_ITEM", item: res?.item });
       });
     });
@@ -55,6 +62,8 @@ export default function Footer() {
     spotify.skipToPrevious().then(() => {
       spotify.getMyCurrentPlaybackState().then((res) => {
         dispatch({ type: "setPlaying", playing: indSong ? false : true });
+        let duration = Math.floor(res?.item?.duration_ms / 1000);
+        // playing ? autoSeek(duration) : clearInterval(window.seekTimer);
         dispatch({ type: "SET_ITEM", item: res?.item });
       });
     });
@@ -63,9 +72,8 @@ export default function Footer() {
     console.log(e.target.value);
     let duration = "";
     let position = e.target.value;
-
+    setRange(position);
     spotify.getMyCurrentPlaybackState().then((res) => {
-      // console.log(res);
       duration = res.item.duration_ms;
       if (duration !== 0) {
         let timeStamp = Math.floor(duration * (position / 100));
@@ -74,23 +82,46 @@ export default function Footer() {
     });
   }
 
-  // function autoSeek(duration) {
-  //   setInterval(() => {
-  //     // setPosition(Math.floor((position + 1) * (100 / duration)));
-  //     seekbar.current.value = Math.floor(
-  //       (seekbar.current.value + 1) * (100 / duration)
-  //     );
-  //   }, 1000);
-  // }
+  function autoSeek(duration) {
+    window.seekTimer = setInterval(() => {
+      seekbar.current.value = parseInt(seekbar.current.value) + 1;
+      console.log(parseInt(seekbar.current.value) + 1);
+      setRange(seekbar.current.value);
+    }, duration * 10);
+  }
+
+  function resetSeek(res) {
+    let currDuration = res?.item?.duration_ms;
+    let currProgress = res?.progress_ms;
+    seekbar.current.value = (currProgress * 100) / currDuration;
+  }
+
+  // useEffect(() => {
+  //   spotify.getMyCurrentPlaybackState().then((res) => {
+  //     if (res?.context?.type !== "playlist") {
+  //       dispatch({ type: "set indSong", indSong: true });
+  //     }
+  //   });
+  // }, []);
 
   useEffect(() => {
     spotify.getMyCurrentPlaybackState().then((res) => {
-      console.log(res.device.volume_percent);
-      volumeBar.current.value = res.device.volume_percent;
+      resetSeek(res);
+      let duration = Math.floor(res?.item?.duration_ms / 1000);
+      // console.log(playing);
+      // playing ? autoSeek(duration) : clearInterval(window.seekTimer); //buggy
+      volumeBar.current.value = res?.device?.volume_percent;
       dispatch({ type: "setPlaying", playing: res?.is_playing });
-      dispatch({ type: "set indSong", indSong: true });
     });
-  }, []);
+  }, [playing]);
+
+  useEffect(() => {
+    if (seekbar.current.value >= 100) {
+      clearInterval(window.seekTimer);
+      seekbar.current.value = 0;
+      dispatch({ type: "setPlaying", playing: indSong ? false : true });
+    }
+  }, [range]);
 
   return (
     <div className="footer">
@@ -127,7 +158,7 @@ export default function Footer() {
         <div className="sliderContainer mt-md-2 px-3 px-lg-4 px-md-3">
           <input
             onClick={userSeek}
-            // ref={seekbar}
+            ref={seekbar}
             defaultValue={0}
             min={0}
             max={100}
